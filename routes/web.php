@@ -18,3 +18,7 @@ Route::get('/', function () {
 });
 
 Route::resource('/bank', 'NewContaControler');
+
+Route::put('/bank/test/{id}', 'NewContaControler@withdraw')->name('withdraw');
+
+Route::put('/bank/custom/edit/{id}', 'NewContaControler@editCustom')->name('bank.custom.edit');

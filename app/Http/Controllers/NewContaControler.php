@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Conta;
+use App\Models\ContaCorrente;
 
 class NewContaControler extends Controller
 {
@@ -14,7 +16,8 @@ class NewContaControler extends Controller
      */
     public function index()
     {
-        return view('bank.index');
+        $data = Conta::all();
+        return view('bank.index', ['data' => $data]);
     }
 
     /**
@@ -24,6 +27,7 @@ class NewContaControler extends Controller
      */
     public function create()
     {
+
         return view('bank.addAccount');
     }
 
@@ -63,7 +67,8 @@ class NewContaControler extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Conta::findOrFail($id);
+        return view('bank.editAccount', ['data' => $data]);
     }
 
     /**
@@ -75,7 +80,41 @@ class NewContaControler extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Conta::findOrFail($id);
+        $calc = ($data->balance + $request->balance);
+
+        $data->update([
+            'balance' => $calc
+        ]);
+
+        return redirect('/bank');
+    }
+
+    public function withdraw(Request $request, $id)
+    {
+        $data = Conta::findOrFail($id);
+        if (($data->balance - $request->balance) > 0) {
+            $calc = ($data->balance - $request->balance);
+
+            $data->update([
+                'balance' => $calc
+            ]);
+        } else {
+            echo "saldo insuficente!";
+        }
+
+        return redirect('/bank');
+    }
+
+    public function editCustom(Request $request, $id)
+    {
+        $data = Conta::findOrFail($id);
+        $data->update([
+            'account' => $request->account,
+            'agency' => $request->agency
+        ]);
+
+        return redirect('/bank');
     }
 
     /**
@@ -86,6 +125,9 @@ class NewContaControler extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Conta::findOrFail($id);
+        $data->delete();
+
+        return redirect('/bank');
     }
 }

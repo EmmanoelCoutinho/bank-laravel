@@ -15,9 +15,9 @@ class CreateContasTable extends Migration
     {
         Schema::create('contas', function (Blueprint $table) {
             $table->id();
-            $table->float('account');
-            $table->float('agency');
-            $table->float('balance');
+            $table->integer('account');
+            $table->integer('agency');
+            $table->decimal('balance');
             $table->softDeletes();
             $table->timestamps();
         });

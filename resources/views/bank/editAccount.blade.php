@@ -15,24 +15,21 @@
 <body class="bg-dark text-light">
     <div class="container mb-4">
         <H1>Banco Laravel Ltda.</H1>
-        <H2>Adicionar nova conta 😊</H2>
+        <H2>Edite sua conta 😊</H2>
     </div>
     <div class="container">
-        <form action="/bank" method="post">
+        <form action="{{ route('bank.custom.edit', $data->id) }}" method="post">
             @csrf
             <div class="d-flex flex-column mb-4">
                 <label class="h4" for="account">Conta:</label>
-                <input class="form-control w-25" type="number" id="account" name="account" placeholder="Informe o número da conta" required>
+                <input value="{{$data->account}}" class="form-control w-25" type="number" id="account" name="account" placeholder="Informe o número da conta" required>
             </div>
             <div class="d-flex flex-column mb-4">
                 <label class="h4" for="agency">Agência:</label>
-                <input class="form-control w-25" type="number" id="agency" name="agency" placeholder="Informe o número da agência" required>
-            </div>
-            <div class="d-flex flex-column">
-                <label class="h4" for="balance">Saldo Atual:</label>
-                <input class="form-control w-25" type="number" id="balance" name="balance" placeholder="Informe o saldo atual" required>
+                <input value="{{$data->agency}}" class="form-control w-25" type="number" id="agency" name="agency" placeholder="Informe o número da agência" required>
             </div>
             <div class="mt-3 d-flex flex-column">
+                <input type="hidden" name="_method" value="put">
                 <button class="btn btn-success w-25" type="submit">Salvar</button>
                 <a class="text-success h5 mt-2" href="/bank">Ver Minhas Contas!</a>
             </div>
